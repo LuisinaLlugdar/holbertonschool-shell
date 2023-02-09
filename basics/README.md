@@ -13,3 +13,4 @@
 12-file_type: prints the type of the file named iamafile
 13-symbolic_link: creates a symbolic link.
 14-copy_html: copies all .html files tat not exist in the parent directory or are newer versions.
+15-lets_move: move files that start with uppercase to tmp

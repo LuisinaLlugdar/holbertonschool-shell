@@ -24,3 +24,4 @@ Words should be sorted.
 21-reverse: reverse its input.
 22-users_and_homes: isplays all users and their home directories, sorted by users. Based on the the /etc/passwd file.
 23-empty_casks: finds all empty files and directories in the current directory and all sub-directories.
+25-acrostic: decodes acrostics that use the first letter of each line.

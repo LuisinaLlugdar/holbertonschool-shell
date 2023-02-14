@@ -22,3 +22,4 @@ Words should be sorted.
 19-AZ: Replace all characters `A` and `c` from input to `Z` and `e`.
 20-hiago: Deletes C and c 
 21-reverse: reverse its input.
+22-users_and_homes: isplays all users and their home directories, sorted by users. Based on the the /etc/passwd file.

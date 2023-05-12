@@ -8,37 +8,54 @@
  */
 int main(int argc, char **argv)
 {
-	int fd, flag = 0;
-	unsigned int line_counter = 1;
-	char *token, *line = NULL, *line_dup = NULL;
-	ssize_t chars_read, len = 0;
-	stack_t *h = NULL;
+	char *line = NULL;
+	ssize_t chars_read;
+	size_t len = 0;
+	stack_t *head = NULL;
+	FILE *fileopen;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	fileopen = fopen(argv[1], O_RDONLY);
+	if (fileopen == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	chars_read = getline(&line, &len, fd);
+	chars_read = getline(&line, &len, fileopen);
 	if (chars_read == -1)
 	{
-		free(chars_read);
-		close(fd);
+		fclose(fileopen);
 		exit(EXIT_FAILURE);
 	}
+	tokenize(head, line);
+	free_dlist(&head);
+	fclose(fileopen);
+	return (0);
+}
+
+/**
+ * tokenize - tokenizes the line
+ * @head: head of the dlinkedlist
+ * @line: line to be tokenized
+ * Return: void
+ */
+void tokenize(stack_t *head, char *line)
+{
+	char *line_dup = NULL, *token = NULL, *delim = "\n";
+	unsigned int line_counter = 1;
+	int flag = 0;
+
 	line_dup = strdup(line);
-	token = strtok(line_dup, "\n");
+	token = strtok(line_dup, delim);
 	while (token != NULL)
 	{
 		if (flag == 1)
 		{
-			push(&h, line_counter, token);
+			push(&head, line_counter, token);
 			flag = 0;
 			token = strtok(NULL, "\t ");
 			line_counter++;
@@ -53,17 +70,14 @@ int main(int argc, char **argv)
 		else
 		{
 			if (get_op_func(token) != 0)
-				get_op_func(token)(&h, line_counter);
+				get_op_func(token)(&head, line_counter);
 			else
 			{
-				free_dlist(&h);
+				free_dlist(&head);
 				fprintf(stderr, "L%d: unknown instruction %s\n", line_counter, token);
 				exit(EXIT_FAILURE);
 			}
 		}
 		line_counter++;
 	}
-	free_dlist(&h); free(chars_read);
-	close(fd);
-	return (0);
 }

@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
-
+#include <ctype.h>
 
 /* Structures */
 
@@ -47,5 +47,16 @@ int main(int argc, char **argv);
 int add_dnodeint(stack_t **head, const int n);
 void delete_node(stack_t **head);
 void free_dlist(stack_t **head);
+void tokenize(stack_t *head, char *line);
+void (*get_op_func(char *token))(stack_t **stack, unsigned int line_counter);
+int is_digit(const char *n);
+void push(stack_t **head, unsigned int line_counter, const char *n);
+void pop(stack_t **head, unsigned int line_counter);
+void pall(stack_t **head, unsigned int line_counter);
+void pint(stack_t **head, unsigned int line_counter);
+void _add(stack_t **head, unsigned int line_counter);
+void swap(stack_t **head, unsigned int line_counter);
+void nop(stack_t **head, unsigned int line_counter);
 
 #endif
+
